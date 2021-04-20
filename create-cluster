@@ -7,7 +7,7 @@ PORT=1000
 TIMEOUT=2000
 NODES=6
 REPLICAS=1
-PROTECTED_MODE=yes
+PROTECTED_MODE=no
 ADDITIONAL_OPTIONS=""
 
 # You may want to put the above config parameters into config.sh in order to
@@ -23,7 +23,7 @@ then
     while [ $((PORT < ENDPORT)) != "0" ]; do
         PORT=$((PORT+1))
         echo "Starting $PORT"
-        $BIN_PATH/redis-server --port $PORT  --protected-mode $PROTECTED_MODE --cluster-enabled yes --cluster-config-file nodes-${PORT}.conf --cluster-node-timeout $TIMEOUT --appendonly yes --appendfilename appendonly-${PORT}.aof --dbfilename dump-${PORT}.rdb --logfile ${PORT}.log --daemonize yes ${ADDITIONAL_OPTIONS}
+        $BIN_PATH/redis-server --bind 0.0.0.0 --port $PORT  --protected-mode $PROTECTED_MODE --cluster-enabled yes --cluster-config-file nodes-${PORT}.conf --cluster-node-timeout $TIMEOUT --appendonly yes --appendfilename appendonly-${PORT}.aof --dbfilename dump-${PORT}.rdb --logfile ${PORT}.log --daemonize yes ${ADDITIONAL_OPTIONS}
     done
     exit 0
 fi
